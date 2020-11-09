@@ -60,3 +60,46 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class Token {
+  final String access;
+  final String type;
+  final num expiresIn;
+
+  Token(this.access, this.type, this.expiresIn);
+
+  Token.fromMap(Map<String, dynamic> json)
+      : access = json['access_token'],
+        type = json['token_type'],
+        expiresIn = json['expires_in'];
+}
+
+class Cover {
+  final String id;
+  final int offsetY;
+  final String source;
+
+  Cover(this.id, this.offsetY, this.source);
+
+  Cover.fromMap(Map<String, dynamic> json)
+      : id = json['id'],
+        offsetY = json['offset_y'],
+        source = json['source'];
+}
+
+class FacebookProfile {
+  final Cover cover;
+  final String name;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String id;
+
+  FacebookProfile.fromMap(Map<String, dynamic> json)
+      : cover = json.containsKey('cover') ? Cover.fromMap(json['cover']) : null,
+        name = json['name'],
+        firstName = json['first_name'],
+        lastName = json['last_name'],
+        email = json['email'],
+        id = json['id'];
+}

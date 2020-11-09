@@ -42,18 +42,17 @@ class UserRepository extends ChangeNotifier implements AuthBase {
   }
 
   @override
-  Future<UserModel> signInWithFacebook() async {
-    return await _authService.signInWithFacebook();
+  Future<UserModel> signInWithFacebook(BuildContext context) async {
+    return await _authService.signInWithFacebook(context);
   }
 
   @override
-  Future<UserModel> signInWithInstagram() {
-    // TODO: implement signInWithInstagram
-    throw UnimplementedError();
+  Future<UserModel> signInWithInstagram(BuildContext context) async {
+    return await _authService.signInWithInstagram(context);
   }
 
   @override
-  Future<UserModel> signInWithTelegram() {
+  Future<UserModel> signInWithTelegram(BuildContext context) {
     // TODO: implement signInWithTelegram
     throw UnimplementedError();
   }

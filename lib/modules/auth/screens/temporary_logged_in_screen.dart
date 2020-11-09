@@ -75,15 +75,22 @@ class _TemporaryLoggedInScreenState extends State<TemporaryLoggedInScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('User: '),
-        Text(
-          '${userModel.firstName} ${userModel.lastName}',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Text(
-          'UserID: ${userModel.userID}',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        if (userModel.profileURL != null) Text("Email: ${userModel.email}"),
+        if (userModel.firstName != null)
+          Text(
+            '${userModel.firstName} ',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        if (userModel.lastName != null)
+          Text(
+            '${userModel.lastName}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        if (userModel.userID != null)
+          Text(
+            'UserID: ${userModel.userID}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        if (userModel.email != null) Text("Email: ${userModel.email}"),
         if (userModel.profileURL != null) Image.network(userModel.profileURL),
         Text('AccessToken: '),
         Container(
@@ -92,7 +99,8 @@ class _TemporaryLoggedInScreenState extends State<TemporaryLoggedInScreen> {
             softWrap: true,
           ),
         ),
-        Text('Created: ${userModel.accesToken}'),
+        if (userModel.accesToken != null)
+          Text('Created: ${userModel.accesToken}'),
         // Text('Expires in: ${accessToken.expiresIn}'),
       ],
     );

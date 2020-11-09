@@ -6,8 +6,8 @@ abstract class AuthBase {
   Future<UserModel> currentUser();
   Future<bool> signOut(BuildContext context, VKLogin vkPlugin);
   Future<UserModel> signInWithYandex();
-  Future<UserModel> signInWithFacebook();
+  Future<UserModel> signInWithFacebook(BuildContext context);
   Future<UserModel> signInWithVK(BuildContext context, VKLogin vkPlugin);
-  Future<UserModel> signInWithInstagram();
-  Future<UserModel> signInWithTelegram();
+  Future<UserModel> signInWithInstagram(BuildContext context);
+  Future<UserModel> signInWithTelegram(BuildContext context);
 }

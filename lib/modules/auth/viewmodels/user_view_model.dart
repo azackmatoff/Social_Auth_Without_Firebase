@@ -57,19 +57,57 @@ class UserViewModel extends ChangeNotifier implements AuthBase {
   }
 
   @override
-  Future<UserModel> signInWithFacebook() async {
-    // TODO: implement signInWithFacebook
-    throw UnimplementedError();
+  Future<UserModel> signInWithFacebook(BuildContext context) async {
+    try {
+      _viewState = ViewState.BUSY;
+      notifyListeners();
+      _userModel = await _repository.signInWithFacebook(context);
+      if (_userModel != null) {
+        return _userModel;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("signInWithFacebook Error at UserViewModel: " + e.toString());
+      await PlatformAlertDialog(
+        subject: "Авторизация не удалась",
+        content: "Ошибка: ${e.toString()}",
+        mainButtonText: "OK",
+      ).choosePlatformToShowDialog(context);
+      return null;
+    } finally {
+      _viewState = ViewState.IDLE;
+      notifyListeners();
+    }
   }
 
   @override
-  Future<UserModel> signInWithInstagram() {
-    // TODO: implement signInWithInstagram
-    throw UnimplementedError();
+  Future<UserModel> signInWithInstagram(BuildContext context) async {
+    try {
+      _viewState = ViewState.BUSY;
+      notifyListeners();
+      _userModel = await _repository.signInWithInstagram(context);
+      if (_userModel != null) {
+        return _userModel;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("signInWithInstagram Error at UserViewModel: " + e.toString());
+      await PlatformAlertDialog(
+        subject: "Авторизация не удалась",
+        content: "Ошибка: ${e.toString()}",
+        mainButtonText: "OK",
+      ).choosePlatformToShowDialog(context);
+      return null;
+    } finally {
+      _viewState = ViewState.IDLE;
+      notifyListeners();
+    }
   }
 
   @override
-  Future<UserModel> signInWithTelegram() {
+  Future<UserModel> signInWithTelegram(BuildContext context) {
     // TODO: implement signInWithTelegram
     throw UnimplementedError();
   }

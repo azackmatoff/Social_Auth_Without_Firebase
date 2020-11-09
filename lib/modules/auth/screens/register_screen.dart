@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_login_vk/flutter_login_vk.dart';
 import 'package:provider/provider.dart';
 import 'package:socialauthenthication/modules/auth/constants/api.dart';
@@ -10,6 +13,7 @@ import 'package:socialauthenthication/modules/auth/screens/terms_and_conditions.
 import 'package:socialauthenthication/modules/auth/viewmodels/user_view_model.dart';
 import 'package:socialauthenthication/modules/widgets/platform_alert_dialog.dart';
 import 'package:socialauthenthication/modules/widgets/social_button.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatefulWidget {
   final vkPlugin = VKLogin(debug: true);
@@ -103,12 +107,91 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _signInWithFacebook(BuildContext context) async {
+    // final facebookLogin = FacebookLogin();
+
+    // FacebookLoginResult _facebookLoginResult =
+    //     await facebookLogin.logIn(['public_profile', 'email']);
+
+    // switch (_facebookLoginResult.status) {
+    //   case FacebookLoginStatus.loggedIn:
+    //     if (_facebookLoginResult.accessToken != null &&
+    //         _facebookLoginResult.accessToken.isValid()) {
+    //       final token = _facebookLoginResult.accessToken.token;
+
+    //       /// to get profile details
+    //       final graphResponse = await http.get(
+    //           'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
+    //       print("graphResponse " +
+    //           graphResponse.body.toString() +
+    //           "runtype " +
+    //           graphResponse.runtimeType.toString());
+    //       var profile = json.decode(graphResponse.body);
+
+    //       // for (var item in profile) {
+    //       //   print("item " + item[0] + item[1]);
+    //       // }
+    //       print("profile" +
+    //           profile.toString() +
+    //           "runtype " +
+    //           profile.runtimeType.toString());
+    //       print("profile.name" + profile[0].toString());
+    //       print("profile.email" + profile[1].toString());
+
+    //       /*
+    //       from profile you will get the below params
+    //       {
+    //       "name": "Iiro Krankka",
+    //       "first_name": "Iiro",
+    //       "last_name": "Krankka",
+    //       "email": "iiro.krankka\u0040gmail.com",
+    //       "id": "<user id here>"
+    //       }
+    //     */
+    //       // return UserModel(
+    //       //   accesToken: token,
+    //       //   userID: profile.id,
+    //       //   username: profile.name,
+    //       //   profileURL: profile.cover,
+    //       //   firstName: profile.first_name,
+    //       //   lastName: profile.last_name,
+    //       // );
+    //     } else {
+    //       return null;
+    //     }
+    //     break;
+    //   case FacebookLoginStatus.cancelledByUser:
+    //     print("User cancelled Facebook login");
+
+    //     await PlatformAlertDialog(
+    //       subject: "Ошибка",
+    //       content: "Вы отменили вход в Facebook",
+    //       mainButtonText: "OK",
+    //     ).choosePlatformToShowDialog(context);
+    //     break;
+    //   case FacebookLoginStatus.error:
+    //     print(
+    //         "Facebook login error: ${_facebookLoginResult.errorMessage.toString()}");
+    //     await PlatformAlertDialog(
+    //       subject: "Ошибка при выходе",
+    //       content: "Ошибка: ${_facebookLoginResult.errorMessage.toString()}",
+    //       mainButtonText: "OK",
+    //     ).choosePlatformToShowDialog(context);
+    //     break;
+    //   default:
+    //     return null;
+    // }
     final _userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
     try {
-      UserModel _user = await _userViewModel.signInWithFacebook();
+      UserModel _user = await _userViewModel.signInWithFacebook(context);
     } on PlatformException catch (e) {
-      print("signInWithFacebook Error :" + e.message.toString());
+      print(
+          "_signInWithFacebook Error on Register page:" + e.message.toString());
+      await PlatformAlertDialog(
+        subject: "Авторизация не удалась",
+        content: "Ошибка: ${e.toString()}",
+        mainButtonText: "OK",
+      ).choosePlatformToShowDialog(context);
     }
   }
 
@@ -116,9 +199,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final _userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
     try {
-      UserModel _user = await _userViewModel.signInWithFacebook();
+      UserModel _user = await _userViewModel.signInWithTelegram(context);
     } on PlatformException catch (e) {
-      print("signInWithFacebook Error :" + e.message.toString());
+      print(
+          "_signInWithTelegram Error on Register page:" + e.message.toString());
+      await PlatformAlertDialog(
+        subject: "Авторизация не удалась",
+        content: "Ошибка: ${e.toString()}",
+        mainButtonText: "OK",
+      ).choosePlatformToShowDialog(context);
     }
   }
 
@@ -126,9 +215,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final _userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
     try {
-      UserModel _user = await _userViewModel.signInWithFacebook();
+      UserModel _user = await _userViewModel.signInWithInstagram(context);
     } on PlatformException catch (e) {
-      print("signInWithFacebook Error :" + e.message.toString());
+      print("_signInWithInstagram Error on Register page:" +
+          e.message.toString());
+      await PlatformAlertDialog(
+        subject: "Авторизация не удалась",
+        content: "Ошибка: ${e.toString()}",
+        mainButtonText: "OK",
+      ).choosePlatformToShowDialog(context);
     }
   }
 
